@@ -1,35 +1,36 @@
-import Sidebar from "components/sidebar/sidebar"
+import Sidebar from "components/sidebar/sidebar";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
     <main>
-        
-        <div className="flex">
+      <div className="flex">
+        <Sidebar />
 
-            <Sidebar/>
+        <div className="w-full bg-[#fcfcfc]">
+          <header className=" z-[48] mb-6 flex w-full flex-wrap bg-white py-3  text-sm dark:border-gray-700 dark:bg-gray-800 sm:flex-nowrap sm:justify-start">
+            <nav className="mx-auto flex w-full basis-full items-center">
+              <div className="ml-auto flex w-full items-center justify-end sm:order-3 sm:justify-end sm:gap-x-3">
+                <div className="hidden sm:block">
+                  <input
+                    type="text"
+                    id="icon"
+                    name="icon"
+                    className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search"
+                  />
+                </div>
+                <div className="flex flex-row items-center justify-end gap-2"></div>
+              </div>
+            </nav>
+          </header>
 
-            <div className="w-full pt-4 px-3 sm:px-6 md:px-8 lg:pl-8 bg-[#fcfcfc]">
-                <header className=" flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white  text-sm py-3 mb-6 dark:bg-gray-800 dark:border-gray-700">
-                    <nav className="flex basis-full items-center w-full mx-auto">
-                        <div className="w-full flex items-center justify-end ml-auto sm:justify-end sm:gap-x-3 sm:order-3">
-                            <div className="hidden sm:block">
-                                    <input type="text" id="icon" name="icon" className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" placeholder="Search" />
-                            </div>
-                            <div className="flex flex-row items-center justify-end gap-2">
-                            
-                            </div>
-                        </div>
-                    </nav>
-                </header>
-
-                <section>
-                    {children}
-                </section>
-            </div>
+          <section className=" px-3 pt-4 sm:px-6 md:px-8 lg:pl-8 ">
+            {children}
+          </section>
         </div>
-
+      </div>
     </main>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
