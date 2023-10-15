@@ -3,27 +3,17 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
-import Login from "./pages/Login";
-import Dashboard from "pages/admin/Dashboard";
+import { routes } from "routes/routes";
+import { RouterProvider } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-]);
+import App from "App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <>
-    <RouterProvider router={router} />
-  </>,
+  <Router>
+    <App />
+  </Router>,
 );
 
 // If you want to start measuring performance in your app, pass a function

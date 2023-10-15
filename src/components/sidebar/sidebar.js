@@ -129,7 +129,7 @@ const Sidebar = () => {
 
         <ul className="primary-scroll flex-1 overflow-hidden transition-all duration-300 hover:overflow-y-scroll">
           {menus.map((item, index) => (
-            <Link to={item.link}>
+            <Link to={item.link} key={index}>
               <li
                 key={index}
                 className={`hover:bg-light-white flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-gray-300 hover:bg-blue-600 hover:text-white`}
