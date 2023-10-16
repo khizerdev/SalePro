@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { SET_USER } from "store/actions";
 import { Loader2 } from "lucide-react";
+import { actionCreators } from "store";
+import { bindActionCreators } from "redux";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
 
   const authUser = {
     id: 1,
@@ -31,7 +33,7 @@ const Login = () => {
     await new Promise((resolve, reject) =>
       setTimeout(() => resolve(true), 1000),
     );
-    dispatch(SET_USER(authUser));
+    actions.SET_USER(authUser);
   };
 
   return (
