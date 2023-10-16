@@ -1,6 +1,3 @@
-import { useRoutes } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import routes from "routes/routes";
 import { Routes, Route } from "react-router-dom";
 import AuthLayout from "components/layouts/auth-layout";
 import GuestLayout from "components/layouts/guest-layout";

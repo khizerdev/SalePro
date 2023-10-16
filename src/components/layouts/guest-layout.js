@@ -1,10 +1,10 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const GuestLayout = ({ children }) => {
-  const user = false;
-  if (user) {
-    // user is not authenticated
+const GuestLayout = () => {
+  const user = useSelector((state) => state.user);
+  if (user.user) {
     return <Navigate to="/dashboard" />;
   }
   return (

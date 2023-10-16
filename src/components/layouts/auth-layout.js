@@ -1,10 +1,10 @@
 import Sidebar from "components/sidebar/sidebar";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const AuthLayout = ({ children }) => {
-  const user = false;
-  if (!user) {
-    // user is not authenticated
+const AuthLayout = () => {
+  const user = useSelector((state) => state.user);
+  if (!user.user) {
     return <Navigate to="/" />;
   }
 
@@ -16,7 +16,7 @@ const AuthLayout = ({ children }) => {
         <div className="w-full bg-[#fcfcfc]">
           <header className="z-[48] mb-6 flex w-full flex-wrap bg-white py-3  text-sm dark:border-gray-700 dark:bg-gray-800 sm:flex-nowrap sm:justify-start">
             <nav className="mx-auto flex w-full basis-full items-center">
-              <div className="ml-auto flex w-full items-center justify-end sm:order-3 sm:justify-end sm:gap-x-3">
+              <div className="ml-auto  flex w-full items-center justify-end sm:order-3 sm:justify-end sm:gap-x-3">
                 <div className="hidden sm:block">
                   <input
                     type="text"
