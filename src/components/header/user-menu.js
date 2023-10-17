@@ -1,11 +1,13 @@
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDown } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
+
 import { Link } from "react-router-dom";
+import { Menu, Transition } from "@headlessui/react";
+import { Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
+
 import { actionCreators } from "store";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
-import { Loader2 } from "lucide-react";
 
 const UserMenu = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,10 @@ const UserMenu = () => {
     setIsLoading(true);
     await new Promise((resolve, reject) =>
       setTimeout(() => resolve(true), 2000),
+    );
+    toast.success("Successfully logged out");
+    await new Promise((resolve, reject) =>
+      setTimeout(() => resolve(true), 1000),
     );
     setIsLoading(false);
     actions.SET_USER(null);

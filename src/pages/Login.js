@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+
 import { Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
+
 import { actionCreators } from "store";
+
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
 const Login = () => {
@@ -30,6 +34,7 @@ const Login = () => {
       setTimeout(() => resolve(true), 2000),
     );
     setIsLoading(false);
+    toast.success("Successfully logged in");
     await new Promise((resolve, reject) =>
       setTimeout(() => resolve(true), 1000),
     );
