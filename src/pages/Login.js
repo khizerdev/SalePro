@@ -13,21 +13,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const actions = bindActionCreators(actionCreators, dispatch);
 
-  const authUser = {
-    id: 1,
-    name: "Leanne Graham",
-    username: "Bret",
-    email: "Sincere@april.biz",
-    address: {
-      street: "Kulas Light",
-      suite: "Apt. 556",
-      city: "Gwenborough",
-      zipcode: "92998-3874",
-    },
-    phone: "1-770-736-8031 x56442",
-    website: "hildegard.org",
-  };
-
   const signIn = async () => {
     setIsLoading(true);
     await new Promise((resolve, reject) =>
@@ -35,10 +20,7 @@ const Login = () => {
     );
     setIsLoading(false);
     toast.success("Successfully logged in");
-    await new Promise((resolve, reject) =>
-      setTimeout(() => resolve(true), 1000),
-    );
-    actions.SET_USER(authUser);
+    actions.LOGIN();
   };
 
   return (

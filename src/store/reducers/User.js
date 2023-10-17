@@ -4,10 +4,15 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_USER":
+    case "LOGIN":
       return {
         ...state,
         user: action.payload,
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        user: null,
       };
     default:
       return state;

@@ -24,7 +24,7 @@ const UserMenu = () => {
       setTimeout(() => resolve(true), 1000),
     );
     setIsLoading(false);
-    actions.SET_USER(null);
+    actions.LOGOUT();
   };
 
   return (
