@@ -2,8 +2,25 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDown } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { actionCreators } from "store";
+import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
+import { Loader2 } from "lucide-react";
 
 const UserMenu = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
+
+  const signout = async () => {
+    setIsLoading(true);
+    await new Promise((resolve, reject) =>
+      setTimeout(() => resolve(true), 2000),
+    );
+    setIsLoading(false);
+    actions.SET_USER(null);
+  };
+
   return (
     <div className="relative flex -space-x-2">
       <Menu as="div" className="relative inline-block text-left">
@@ -53,13 +70,17 @@ const UserMenu = () => {
             <div className="px-1 py-1">
               <Menu.Item className="px-5 py-2">
                 {({ active }) => (
-                  <Link
+                  <span
+                    onClick={signout}
                     className={`${
                       active ? "rounded bg-[#f9f9f9] text-[#3e97ff]" : ""
                     } flex cursor-pointer items-center font-medium text-[#252F4A] transition-colors`}
                   >
+                    {isLoading && (
+                      <Loader2 size={20} className="mr-1 animate-spin" />
+                    )}
                     Sign Out
-                  </Link>
+                  </span>
                 )}
               </Menu.Item>
             </div>
