@@ -4,7 +4,7 @@ import UserMenu from "components/header/user-menu";
 const Header = () => {
   return (
     <header className="z-[48] mb-6 flex w-full flex-wrap bg-white py-3 text-sm dark:border-gray-700 dark:bg-gray-800 sm:flex-nowrap sm:justify-start">
-      <nav className="mx-auto flex w-full basis-full items-center px-3">
+      <nav className="mx-auto flex w-full basis-full items-center px-8">
         <div className="flex w-full items-center justify-between sm:gap-x-3">
           <div className="hidden sm:block">
             <input
