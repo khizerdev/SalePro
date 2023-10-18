@@ -1,7 +1,11 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-const MenuItem = ({ item, open }) => {
+const MenuItem = ({ item }) => {
   const { link, src, title } = item;
+  const sidebarOpen = useSelector((state) => state.setting.sidebarOpen);
+
+  const titleClass = !sidebarOpen ? "hidden" : "";
   return (
     <NavLink
       to={link}
@@ -13,9 +17,7 @@ const MenuItem = ({ item, open }) => {
       end
     >
       {src}
-      <span className={`${!open && "hidden"} origin-left duration-200`}>
-        {title}
-      </span>
+      <span className={`${titleClass} origin-left duration-200`}>{title}</span>
     </NavLink>
   );
 };

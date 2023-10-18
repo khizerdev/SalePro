@@ -6,19 +6,25 @@ import Header from "components/header/header";
 
 const AuthLayout = () => {
   const user = useSelector((state) => state.auth);
+  const sidebarOpen = useSelector((state) => state.setting.sidebarOpen);
+
   if (!user.user) {
     return <Navigate to="/" />;
   }
+
+  const paddingClass = sidebarOpen ? "lg:pl-[241px]" : "lg:pl-[82px]";
 
   return (
     <main>
       <div className="flex">
         <Sidebar />
 
-        <div className="w-full bg-[#fcfcfc]">
+        <div
+          className={`w-full bg-[#fcfcfc] duration-300 ${paddingClass} transition-all`}
+        >
           <Header />
 
-          <section className=" px-3 pt-4 sm:px-6 md:px-8 lg:pl-8 ">
+          <section className="px-3 pt-4 sm:px-6 md:px-8">
             <Outlet />
           </section>
         </div>

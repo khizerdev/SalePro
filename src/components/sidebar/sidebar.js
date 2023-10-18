@@ -1,11 +1,16 @@
-import { useState } from "react";
-
 import { Gauge, ChevronLeft, Users2, Download } from "lucide-react";
 
 import MenuItem from "components/sidebar/menu-item";
 
+import { actionCreators } from "store";
+
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+
 const Sidebar = () => {
-  const [open, setOpen] = useState(true);
+  const sidebarOpen = useSelector((state) => state.setting.sidebarOpen);
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
 
   const menus = [
     {
@@ -23,20 +28,19 @@ const Sidebar = () => {
   ];
 
   const toggleSidebar = () => {
-    setOpen(!open);
+    actions.TOGGLE_SIDEBAR();
   };
 
-  const sidebarWidth = open ? "w-60" : "w-20";
-  const deskTopTitleClass = open ? "" : "hidden scale-0";
-  const mobileTitleClass = open ? "hidden scale-0" : "scale-120";
-  const downloadButtonClass = open ? "" : "hidden";
+  const sidebarWidth = sidebarOpen ? "w-60" : "w-20";
+  const deskTopTitleClass = sidebarOpen ? "" : "hidden scale-0";
+  const mobileTitleClass = sidebarOpen ? "hidden scale-0" : "scale-120";
+  const downloadButtonClass = sidebarOpen ? "" : "hidden";
+  const iconClass = !sidebarOpen ? "rotate-180" : "";
 
   return (
-    <div className="relative flex">
+    <div className="fixed flex">
       <div
-        className={`border-dark-purple absolute -right-3 top-9 z-10 w-max cursor-pointer rounded-full border-2 bg-white ${
-          !open && "rotate-180"
-        }`}
+        className={`border-dark-purple absolute -right-3 top-9 z-10 w-max cursor-pointer rounded-full border-2 bg-white ${iconClass}`}
         onClick={toggleSidebar}
       >
         <ChevronLeft />
@@ -60,7 +64,7 @@ const Sidebar = () => {
 
         <ul className="primary-scroll flex-1 overflow-hidden transition-all duration-300 hover:overflow-y-scroll">
           {menus.map((item, index) => (
-            <MenuItem item={item} open={open} key={index} />
+            <MenuItem item={item} key={index} />
           ))}
         </ul>
 

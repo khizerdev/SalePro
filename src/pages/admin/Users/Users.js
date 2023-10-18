@@ -14,7 +14,7 @@ const Users = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col rounded-md border border-neutral-200 bg-[#fff]">
       <div className="-m-1.5 overflow-x-auto">
         <div className="inline-block min-w-full p-1.5 align-middle">
           <div className="overflow-hidden">
