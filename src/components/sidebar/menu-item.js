@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
-const MenuItem = ({ item, open, currentPath }) => {
-  const { link, src, title, name } = item;
+const MenuItem = ({ item, open }) => {
+  const { link, src, title } = item;
   return (
     <NavLink
       to={link}

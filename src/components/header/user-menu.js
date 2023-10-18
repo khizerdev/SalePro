@@ -18,7 +18,7 @@ const UserMenu = () => {
   const {
     email,
     name: { firstname, lastname },
-  } = useSelector((state) => state.user.user);
+  } = useSelector((state) => state.auth.user);
 
   const firstName =
     firstname.slice(0, 1).toUpperCase() + firstname.slice(1, firstname.length);

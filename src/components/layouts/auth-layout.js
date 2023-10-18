@@ -5,7 +5,7 @@ import Sidebar from "components/sidebar/sidebar";
 import Header from "components/header/header";
 
 const AuthLayout = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
   if (!user.user) {
     return <Navigate to="/" />;
   }
