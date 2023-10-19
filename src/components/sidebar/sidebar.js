@@ -1,4 +1,10 @@
-import { Gauge, ChevronLeft, Users2, Download } from "lucide-react";
+import {
+  Gauge,
+  ChevronLeft,
+  Users2,
+  Download,
+  GanttChartSquare,
+} from "lucide-react";
 
 import MenuItem from "components/sidebar/menu-item";
 
@@ -24,6 +30,12 @@ const Sidebar = () => {
       src: <Users2 size={25} />,
       link: "/dashboard/users",
       name: "dashboard/users",
+    },
+    {
+      title: "Projects",
+      src: <GanttChartSquare size={25} />,
+      link: "/dashboard/projects",
+      name: "dashboard/projects",
     },
   ];
 

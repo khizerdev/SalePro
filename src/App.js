@@ -8,6 +8,7 @@ import GuestLayout from "components/layouts/guest-layout";
 import Login from "pages/Login";
 import Dashboard from "pages/admin/Dashboard";
 import Users from "pages/admin/Users/Users";
+import Projects from "pages/admin/Projects/Projects";
 
 const App = () => {
   return (
@@ -51,6 +52,7 @@ const App = () => {
 
         <Route path="/dashboard" element={<AuthLayout />}>
           <Route path="users" element={<Users />} />
+          <Route path="projects" element={<Projects />} />
           <Route index element={<Dashboard />} />
         </Route>
       </Routes>
