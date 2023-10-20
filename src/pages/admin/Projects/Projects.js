@@ -4,14 +4,29 @@ import { Trash2, Clock, PlusCircle } from "lucide-react";
 
 import Section from "components/section/section";
 
+import { actionCreators } from "store";
+
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+
 const Projects = () => {
   const projects = useSelector((state) => state.projects.projects);
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
+
+  const handleClick = () => {
+    actions.OPEN_MODAL({ type: "createProject", isOpen: true });
+  };
+
   return (
     <Section>
       <div className="mb-10 flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Projects</h2>
 
-        <button className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+        <button
+          onClick={handleClick}
+          className="inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        >
           <PlusCircle size={16} className="mr-1" />
           Create Project
         </button>
