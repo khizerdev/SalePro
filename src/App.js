@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 import { Routes, Route } from "react-router-dom";
@@ -10,7 +11,19 @@ import Dashboard from "pages/admin/Dashboard";
 import Users from "pages/admin/Users/Users";
 import Projects from "pages/admin/Projects/Projects";
 
+import { actionCreators } from "store";
+
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+
 const App = () => {
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
+
+  useEffect(() => {
+    actions.CLOSE_MODAL();
+  }, []);
+
   return (
     <>
       <Toaster
