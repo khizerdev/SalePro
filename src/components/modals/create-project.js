@@ -1,12 +1,18 @@
 import { Fragment } from "react";
-
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { actionCreators } from "store";
 
 import { Dialog, Transition } from "@headlessui/react";
+
+const categories = [
+  { id: 1, name: "UI/UX Design" },
+  { id: 2, name: "App Development" },
+  { id: 3, name: "Quality Assurance" },
+  { id: 4, name: "SEO" },
+  { id: 5, name: "Marketing" },
+];
 
 const CreateProject = () => {
   const dispatch = useDispatch();
@@ -52,26 +58,84 @@ const CreateProject = () => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Payment successful
+                    Create Project
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
+                  <div className="mt-7">
+                    <div className="mb-4 grid w-full items-center gap-1.5">
+                      <label
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        htmlFor="name"
+                      >
+                        Project Name
+                      </label>
+                      <input
+                        className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        id="name"
+                        placeholder="Explain what the Project Name"
+                        type="text"
+                      />
+                    </div>
 
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => {
-                        console.log("hello");
-                        actions.CLOSE_MODAL();
-                      }}
-                    >
-                      Got it, thanks!
-                    </button>
+                    <div className="mb-4 grid w-full items-center gap-1.5">
+                      <label
+                        htmlFor="categories"
+                        className="block text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Project Category
+                      </label>
+                      <select className="block h-9 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-1 text-sm text-gray-900 focus-visible:outline-none focus-visible:ring-1">
+                        <option value="Select Project">Select Option</option>
+                        {categories.map((category, index) => {
+                          return (
+                            <option value={category.id} key={index}>
+                              {category.name}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+
+                    <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
+                      <div>
+                        <label
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          htmlFor="start_date"
+                        >
+                          Project Start Date
+                        </label>
+                        <input
+                          className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                          id="start_date"
+                          type="date"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          htmlFor="end_date"
+                        >
+                          Project End Date
+                        </label>
+                        <input
+                          className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                          id="end_date"
+                          type="date"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mb-4 grid w-full items-center gap-1.5">
+                      <label
+                        htmlFor="description"
+                        className="block text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Description (optional)
+                      </label>
+                      <textarea
+                        className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Type your message here."
+                      />
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
