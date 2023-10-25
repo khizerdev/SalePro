@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Sidebar from "components/sidebar/sidebar";
 import Header from "components/header/header";
 import CreateProject from "components/modals/create-project";
+import DeleteProject from "components/modals/delete-project";
 
 const AuthLayout = () => {
   const user = useSelector((state) => state.auth);
@@ -18,6 +19,7 @@ const AuthLayout = () => {
   return (
     <main>
       <CreateProject />
+      <DeleteProject />
       <div className="flex">
         <Sidebar />
 

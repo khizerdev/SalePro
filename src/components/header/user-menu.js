@@ -36,6 +36,7 @@ const UserMenu = () => {
     );
     setIsLoading(false);
     actions.LOGOUT();
+    actions.SET_PROJECTS([]);
   };
 
   return (

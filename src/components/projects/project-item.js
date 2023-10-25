@@ -1,15 +1,36 @@
-import { getRemainingDays } from "lib/get-remaining-days";
 import { Trash2, Clock } from "lucide-react";
+
+import { actionCreators } from "store";
+
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import { getRemainingDays } from "lib/get-remaining-days";
 
 const ProjectItem = ({ project }) => {
   const { name, category, end_date } = project;
   const remainingDays = getRemainingDays(end_date);
+
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
+
+  const openDeleteModal = () => {
+    actions.OPEN_MODAL({
+      type: "deleteProject",
+      isOpen: true,
+      data: { projectId: project.id },
+    });
+  };
+
   return (
     <div className="rounded-md border bg-white p-3">
       <h2 className="pb-3 text-center text-sm font-semibold">{name}</h2>
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium">{category}</span>
-        <span className="group cursor-pointer rounded-md border p-2 transition hover:bg-red-600">
+        <span
+          onClick={openDeleteModal}
+          className="group cursor-pointer rounded-md border p-2 transition hover:bg-red-600"
+        >
           <Trash2 size={16} className="group-hover:text-white" />
         </span>
       </div>

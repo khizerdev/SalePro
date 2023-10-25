@@ -10,6 +10,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import uuid from "react-uuid";
 
 import Error from "components/error/error";
 
@@ -50,7 +51,7 @@ const CreateProject = () => {
 
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(() => resolve(true), 1500));
-    const newProjectData = { ...data, tasks: [] };
+    const newProjectData = { id: uuid(), ...data, tasks: [] };
     const updatedProjects = [...projects, newProjectData];
     actions.SET_PROJECTS(updatedProjects);
     toast.success("Project Created");
@@ -58,8 +59,8 @@ const CreateProject = () => {
   };
 
   const onClose = () => {
-    reset();
     actions.CLOSE_MODAL();
+    reset();
   };
 
   return (
