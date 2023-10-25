@@ -16,6 +16,7 @@ import Login from "pages/Login";
 const Dashboard = lazy(() => import("pages/admin/Dashboard"));
 const Users = lazy(() => import("pages/admin/Users/Users"));
 const Projects = lazy(() => import("pages/admin/Projects/Projects"));
+const Tasks = lazy(() => import("pages/admin/Tasks/Tasks"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -79,6 +80,14 @@ const App = () => {
             element={
               <Suspense fallback={null}>
                 <Projects />
+              </Suspense>
+            }
+          />
+          <Route
+            path="tasks"
+            element={
+              <Suspense fallback={null}>
+                <Tasks />
               </Suspense>
             }
           />

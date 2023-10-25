@@ -4,6 +4,7 @@ import {
   Users2,
   Download,
   GanttChartSquare,
+  FileCheck,
 } from "lucide-react";
 
 import MenuItem from "components/sidebar/menu-item";
@@ -30,6 +31,12 @@ const Sidebar = () => {
       src: <Users2 size={25} />,
       link: "/dashboard/users",
       name: "dashboard/users",
+    },
+    {
+      title: "Tasks",
+      src: <FileCheck size={25} />,
+      link: "/dashboard/tasks",
+      name: "dashboard/tasks",
     },
     {
       title: "Projects",

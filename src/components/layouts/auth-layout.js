@@ -5,6 +5,7 @@ import Sidebar from "components/sidebar/sidebar";
 import Header from "components/header/header";
 import CreateProject from "components/modals/create-project";
 import DeleteProject from "components/modals/delete-project";
+import CreateTask from "components/modals/create-task";
 
 const AuthLayout = () => {
   const user = useSelector((state) => state.auth);
@@ -20,6 +21,8 @@ const AuthLayout = () => {
     <main>
       <CreateProject />
       <DeleteProject />
+      <CreateTask />
+
       <div className="flex">
         <Sidebar />
 
@@ -28,7 +31,7 @@ const AuthLayout = () => {
         >
           <Header />
 
-          <section className="px-3 pt-4 sm:px-6 md:px-8">
+          <section className="px-3 py-4 sm:px-6 md:px-8">
             <Outlet />
           </section>
         </div>
