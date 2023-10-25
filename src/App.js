@@ -1,20 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
+
 import { Toaster } from "react-hot-toast";
 
 import { Routes, Route } from "react-router-dom";
 
 import AuthLayout from "components/layouts/auth-layout";
 import GuestLayout from "components/layouts/guest-layout";
-
-import Login from "pages/Login";
-import Dashboard from "pages/admin/Dashboard";
-import Users from "pages/admin/Users/Users";
-import Projects from "pages/admin/Projects/Projects";
-
 import { actionCreators } from "store";
 
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+
+import Login from "pages/Login";
+
+const Dashboard = lazy(() => import("pages/admin/Dashboard"));
+const Users = lazy(() => import("pages/admin/Users/Users"));
+const Projects = lazy(() => import("pages/admin/Projects/Projects"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const App = () => {
           },
         }}
       />
+
       <Routes>
         <Route element={<GuestLayout />}>
           <Route path="/" element={<Login />} />
@@ -64,9 +66,30 @@ const App = () => {
         </Route>
 
         <Route path="/dashboard" element={<AuthLayout />}>
-          <Route path="users" element={<Users />} />
-          <Route path="projects" element={<Projects />} />
-          <Route index element={<Dashboard />} />
+          <Route
+            path="users"
+            element={
+              <Suspense fallback={null}>
+                <Users />
+              </Suspense>
+            }
+          />
+          <Route
+            path="projects"
+            element={
+              <Suspense fallback={null}>
+                <Projects />
+              </Suspense>
+            }
+          />
+          <Route
+            index
+            element={
+              <Suspense fallback={null}>
+                <Dashboard />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </>
