@@ -4,12 +4,14 @@ import { Toaster } from "react-hot-toast";
 
 import { Routes, Route } from "react-router-dom";
 
-import AuthLayout from "components/layouts/auth-layout";
-import GuestLayout from "components/layouts/guest-layout";
 import { actionCreators } from "store";
-
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+
+import { ErrorBoundary } from "react-error-boundary";
+
+import AuthLayout from "components/layouts/auth-layout";
+import GuestLayout from "components/layouts/guest-layout";
 
 import Login from "pages/Login";
 
@@ -60,47 +62,49 @@ const App = () => {
         }}
       />
 
-      <Routes>
-        <Route element={<GuestLayout />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Routes>
+          <Route element={<GuestLayout />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
 
-        <Route path="/dashboard" element={<AuthLayout />}>
-          <Route
-            path="users"
-            element={
-              <Suspense fallback={null}>
-                <Users />
-              </Suspense>
-            }
-          />
-          <Route
-            path="projects"
-            element={
-              <Suspense fallback={null}>
-                <Projects />
-              </Suspense>
-            }
-          />
-          <Route
-            path="tasks"
-            element={
-              <Suspense fallback={null}>
-                <Tasks />
-              </Suspense>
-            }
-          />
-          <Route
-            index
-            element={
-              <Suspense fallback={null}>
-                <Dashboard />
-              </Suspense>
-            }
-          />
-        </Route>
-      </Routes>
+          <Route path="/dashboard" element={<AuthLayout />}>
+            <Route
+              path="users"
+              element={
+                <Suspense fallback={null}>
+                  <Users />
+                </Suspense>
+              }
+            />
+            <Route
+              path="projects"
+              element={
+                <Suspense fallback={null}>
+                  <Projects />
+                </Suspense>
+              }
+            />
+            <Route
+              path="tasks"
+              element={
+                <Suspense fallback={null}>
+                  <Tasks />
+                </Suspense>
+              }
+            />
+            <Route
+              index
+              element={
+                <Suspense fallback={null}>
+                  <Dashboard />
+                </Suspense>
+              }
+            />
+          </Route>
+        </Routes>
+      </ErrorBoundary>
     </>
   );
 };
