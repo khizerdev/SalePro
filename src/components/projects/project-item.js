@@ -1,7 +1,7 @@
 import { Trash2, Clock } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 import { actionCreators } from "store";
-
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -23,7 +23,7 @@ const ProjectItem = ({ project }) => {
   };
 
   return (
-    <div className="rounded-md border bg-white p-3">
+    <NavLink to={project.id} className="rounded-md border bg-white p-3">
       <h2 className="pb-3 text-center text-sm font-semibold">{name}</h2>
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium">{category}</span>
@@ -66,7 +66,7 @@ const ProjectItem = ({ project }) => {
       <div className="mt-2 h-1.5 w-full rounded-full bg-gray-200">
         <div className="h-1.5 rounded-full bg-green-600"></div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 

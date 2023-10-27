@@ -14,6 +14,7 @@ import AuthLayout from "components/layouts/auth-layout";
 import GuestLayout from "components/layouts/guest-layout";
 
 import Login from "pages/Login";
+import ProjectDetail from "pages/admin/Projects/ProjectDetail";
 
 const Dashboard = lazy(() => import("pages/admin/Dashboard"));
 const Users = lazy(() => import("pages/admin/Users/Users"));
@@ -78,14 +79,17 @@ const App = () => {
                 </Suspense>
               }
             />
-            <Route
-              path="projects"
-              element={
-                <Suspense fallback={null}>
-                  <Projects />
-                </Suspense>
-              }
-            />
+            <Route path="projects">
+              <Route path=":id" element={<ProjectDetail />}></Route>
+              <Route
+                index
+                element={
+                  <Suspense fallback={null}>
+                    <Projects />
+                  </Suspense>
+                }
+              />
+            </Route>
             <Route
               path="tasks"
               element={

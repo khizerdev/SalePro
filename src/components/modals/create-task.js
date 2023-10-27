@@ -47,7 +47,12 @@ const CreateTask = () => {
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(() => resolve(true), 1500));
     const project = projects.find((item) => item.id === data.projectId);
-    const newTaskData = { id: uuid(), ...data, projectName: project.name };
+    const newTaskData = {
+      id: uuid(),
+      ...data,
+      projectName: project.name,
+      status: "In Pending",
+    };
     const updatedTasks = [...tasks, newTaskData];
     actions.SET_TASKS(updatedTasks);
     toast.success("Task Created");

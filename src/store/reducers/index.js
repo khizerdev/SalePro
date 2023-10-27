@@ -5,6 +5,7 @@ import Setting from "./Setting";
 import Project from "./Project";
 import Modal from "./Modal";
 import Task from "./Task";
+import TaskStatus from "./TaskStatus";
 
 const rootReducer = combineReducers({
   auth: Auth,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   projects: Project,
   modal: Modal,
   tasks: Task,
+  taskstatus: TaskStatus,
 });
 
 export default rootReducer;
