@@ -16,7 +16,7 @@ const TaskListItem = ({ task }) => {
   useEffect(() => {
     const itemStatus = statuses.filter((item) => item.name != task.status);
     setFilteredStatus(itemStatus);
-  }, []);
+  }, [task.status]);
 
   const updateTasks = (e, id) => {
     const taskIndex = tasks.findIndex((item) => item.id === id);
