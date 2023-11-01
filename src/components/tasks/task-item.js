@@ -1,7 +1,6 @@
 import React from "react";
 
 const TaskItem = ({ item }) => {
-  console.log(item);
   return (
     <div className="mb-2 block cursor-pointer rounded bg-white px-2.5 py-1 shadow-md">
       <div className="flex py-1.5">
