@@ -11,6 +11,8 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { createPortal } from "react-dom";
+import { Plus } from "lucide-react";
+import uuid from "react-uuid";
 
 import dataTasks from "data/dataTasks";
 
@@ -81,6 +83,19 @@ const ProjectDetail = () => {
     setGroupedTasks(newGroups);
   }
 
+  const addColumn = () => {
+    const newGroups = [
+      ...groupedTasks,
+      {
+        id: uuid(),
+        title: "New Column",
+        tasks: [],
+      },
+    ];
+
+    setGroupedTasks(newGroups);
+  };
+
   // useEffect(() => {
   //   const tasksToSet = tasks.filter((item) => item.projectId === id);
 
@@ -103,12 +118,27 @@ const ProjectDetail = () => {
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
       >
-        <div className="grid grid-cols-5  gap-2">
+        <div
+          className={`secondary-scroll flex gap-2 overflow-y-hidden overflow-x-scroll py-3`}
+        >
           <SortableContext items={columnsId}>
             {groupedTasks.map((group) => {
-              return <Columns key={group.id} group={group} updateColumn={updateColumn} />;
+              return (
+                <Columns
+                  key={group.id}
+                  group={group}
+                  updateColumn={updateColumn}
+                />
+              );
             })}
           </SortableContext>
+          <button
+            className="flex !min-w-[10rem] cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 px-2 py-1.5 hover:border-gray-400"
+            onClick={() => addColumn()}
+          >
+            <Plus className="mr-2" color="gray" />
+            <span className="text-sm text-gray-700">Add Column</span>
+          </button>
         </div>
         <DragOverlay>
           {activeColumn ? <Columns group={activeColumn} /> : null}

@@ -33,7 +33,7 @@ const Columns = ({ group, updateColumn }) => {
       <div
         ref={setNodeRef}
         style={style}
-        className="flex max-h-full flex-col rounded-md border-2 border-blue-600 opacity-40"
+        className="flex max-h-full w-72 flex-col rounded-md border-2 border-blue-600 opacity-40"
       ></div>
     );
   }
@@ -42,7 +42,7 @@ const Columns = ({ group, updateColumn }) => {
     <div
       ref={setNodeRef}
       style={style}
-      className="box-border flex max-h-full flex-col whitespace-normal rounded bg-gray-200"
+      className="box-border flex max-h-full w-[200px] !min-w-[16rem] flex-1 flex-col rounded bg-gray-200"
     >
       <div
         {...attributes}
