@@ -1,7 +1,13 @@
 import { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { createPortal } from "react-dom";
@@ -23,6 +29,14 @@ const ProjectDetail = () => {
   const columnsId = useMemo(
     () => groupedTasks.map((col) => col.id),
     [groupedTasks],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
   );
 
   function onDragStart(event) {
@@ -75,7 +89,11 @@ const ProjectDetail = () => {
 
   return (
     <Section>
-      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      <DndContext
+        sensors={sensors}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
         <div className="grid grid-cols-5  gap-2">
           <SortableContext items={columnsId}>
             {groupedTasks.map((group) => {
