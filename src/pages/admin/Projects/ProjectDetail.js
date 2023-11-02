@@ -72,6 +72,15 @@ const ProjectDetail = () => {
     });
   }
 
+  function updateColumn(id, title) {
+    const newGroups = groupedTasks.map((group) => {
+      if (group.id !== id) return group;
+      return { ...group, title };
+    });
+
+    setGroupedTasks(newGroups);
+  }
+
   // useEffect(() => {
   //   const tasksToSet = tasks.filter((item) => item.projectId === id);
 
@@ -97,7 +106,7 @@ const ProjectDetail = () => {
         <div className="grid grid-cols-5  gap-2">
           <SortableContext items={columnsId}>
             {groupedTasks.map((group) => {
-              return <Columns group={group} key={group.id} />;
+              return <Columns key={group.id} group={group} updateColumn={updateColumn} />;
             })}
           </SortableContext>
         </div>

@@ -4,7 +4,7 @@ import { Fragment, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const Columns = ({ group }) => {
+const Columns = ({ group, updateColumn }) => {
   const [editMode, setEditMode] = useState(false);
 
   const {
@@ -50,7 +50,22 @@ const Columns = ({ group }) => {
         className="flex cursor-grab items-center justify-between px-2 py-2.5"
       >
         <div className="flex-1 px-2 py-[0.313rem] text-sm font-semibold leading-none text-gray-700">
-          {group.title}
+          {!editMode && group.title}
+          {editMode && (
+            <input
+              className="block w-full rounded-md border-gray-300 pl-2 text-sm shadow-sm focus:border-blue-600 focus:ring-blue-600"
+              value={group.title}
+              onChange={(e) => updateColumn(group.id, e.target.value)}
+              autoFocus
+              onBlur={() => {
+                setEditMode(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key !== "Enter") return;
+                setEditMode(false);
+              }}
+            />
+          )}
         </div>
         <Menu as="div" className="relative z-50 cursor-pointer">
           <Menu.Button>
@@ -72,6 +87,9 @@ const Columns = ({ group }) => {
                     className={`${
                       active ? "rounded bg-[#f9f9f9]" : ""
                     } flex cursor-pointer items-center text-sm font-medium text-[#252F4A] transition-colors`}
+                    onClick={() => {
+                      setEditMode(true);
+                    }}
                   >
                     Edit
                   </span>
