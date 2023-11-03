@@ -128,12 +128,13 @@ const ProjectDetail = () => {
                   key={group.id}
                   group={group}
                   updateColumn={updateColumn}
+                  setGroupedTasks={setGroupedTasks}
                 />
               );
             })}
           </SortableContext>
           <button
-            className="flex !min-w-[10rem] cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 px-2 py-1.5 hover:border-gray-400"
+            className="flex h-[50px] !min-w-[10rem] cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 px-2 py-1.5 hover:border-gray-400"
             onClick={() => addColumn()}
           >
             <Plus className="mr-2" color="gray" />

@@ -3,8 +3,10 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import TaskItem from "./task-item";
+import TaskAdd from "./task-add";
 
-const Columns = ({ group, updateColumn }) => {
+const Columns = ({ group, updateColumn, setGroupedTasks, groupedTasks }) => {
   const [editMode, setEditMode] = useState(false);
 
   const {
@@ -110,6 +112,13 @@ const Columns = ({ group, updateColumn }) => {
           </Transition>
         </Menu>
       </div>
+      <div className="min-h-0 overflow-y-auto px-2">
+        {group.tasks.map((item, index) => {
+          return <TaskItem item={item} key={index} />;
+        })}
+      </div>
+
+      <TaskAdd group={group} setGroupedTasks={setGroupedTasks} />
     </div>
   );
 };
