@@ -103,8 +103,8 @@ const ProjectDetail = () => {
           (item) => item.id === overId,
         );
         const newGroup = [...prevTask];
-        newGroup[activeIndex].tasks = arrayMove(
-          newGroup[activeIndex].tasks,
+        newGroup[activeGroupIndex].tasks = arrayMove(
+          newGroup[activeGroupIndex].tasks,
           activeIndex,
           overIndex,
         );
