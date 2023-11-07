@@ -27,6 +27,7 @@ const ProjectDetail = () => {
   const [groupedTasks, setGroupedTasks] = useState(dataTasks);
 
   const [activeColumn, setActiveColumn] = useState(null);
+  const [activeTask, setActiveTask] = useState(null);
 
   const columnsId = useMemo(
     () => groupedTasks.map((col) => col.id),
@@ -43,23 +44,25 @@ const ProjectDetail = () => {
 
   function onDragStart(event) {
     if (event.active.data.current?.type === "Column") {
-      console.log("hello");
       setActiveColumn(event.active.data.current.group);
+      return;
+    }
+
+    if (event.active.data.current?.type === "Task") {
+      setActiveTask(event.active.data.current.task);
+      return;
     }
   }
 
   function onDragEnd(event) {
     setActiveColumn(null);
     const { active, over } = event;
-    console.log(active, over);
     if (!over) return;
 
     const activeId = active.id;
     const overId = over.id;
 
     if (activeId === overId) return;
-
-    console.log(activeId === overId);
 
     // setGroupedTasks((groups) => {
     //   const activeGroupIndex = groups.fid
@@ -72,6 +75,42 @@ const ProjectDetail = () => {
 
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
+  }
+
+  function onDragOver(event) {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
+
+    const isActiveATask = active.data.current?.type === "Task";
+    const isOverATask = over.data.current?.type === "Task";
+
+    // dropping a Task over another Task
+    if (isActiveATask && isOverATask) {
+      const activeGroupIndex = groupedTasks.findIndex((group) =>
+        group.tasks.some((item) => item.id === activeId),
+      );
+
+      setGroupedTasks((prevTask) => {
+        const activeIndex = groupedTasks[activeGroupIndex].tasks.findIndex(
+          (item) => item.id === activeId,
+        );
+        const overIndex = groupedTasks[activeGroupIndex].tasks.findIndex(
+          (item) => item.id === overId,
+        );
+        const newGroup = [...prevTask];
+        newGroup[activeIndex].tasks = arrayMove(
+          newGroup[activeIndex].tasks,
+          activeIndex,
+          overIndex,
+        );
+        return newGroup;
+      });
+    }
   }
 
   function updateColumn(id, title) {
@@ -96,6 +135,8 @@ const ProjectDetail = () => {
     setGroupedTasks(newGroups);
   };
 
+  function updateTask() {}
+
   // useEffect(() => {
   //   const tasksToSet = tasks.filter((item) => item.projectId === id);
 
@@ -117,6 +158,7 @@ const ProjectDetail = () => {
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
+        onDragOver={onDragOver}
       >
         <div
           className={`secondary-scroll flex gap-2 overflow-y-hidden overflow-x-scroll py-3`}
@@ -143,6 +185,9 @@ const ProjectDetail = () => {
         </div>
         <DragOverlay>
           {activeColumn ? <Columns group={activeColumn} /> : null}
+          {activeTask ? (
+            <TaskItem task={activeTask} updateTask={updateTask} />
+          ) : null}
         </DragOverlay>
       </DndContext>
     </Section>

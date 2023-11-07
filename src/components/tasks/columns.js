@@ -1,13 +1,16 @@
 import { MoreHorizontal } from "lucide-react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useMemo, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import TaskItem from "./task-item";
 import TaskAdd from "./task-add";
+import { SortableContext } from "@dnd-kit/sortable";
 
 const Columns = ({ group, updateColumn, setGroupedTasks, groupedTasks }) => {
   const [editMode, setEditMode] = useState(false);
+
+  const tasksId = group.tasks.map((task) => task.id);
 
   const {
     setNodeRef,
@@ -35,7 +38,7 @@ const Columns = ({ group, updateColumn, setGroupedTasks, groupedTasks }) => {
       <div
         ref={setNodeRef}
         style={style}
-        className="flex max-h-full w-72 flex-col rounded-md border-2 border-blue-600 opacity-40"
+        className="flex max-h-full w-[200px] !min-w-[16rem] flex-col rounded-md border-2 border-blue-600 opacity-40"
       ></div>
     );
   }
@@ -113,9 +116,11 @@ const Columns = ({ group, updateColumn, setGroupedTasks, groupedTasks }) => {
         </Menu>
       </div>
       <div className="min-h-0 overflow-y-auto px-2">
-        {group.tasks.map((item, index) => {
-          return <TaskItem item={item} key={index} />;
-        })}
+        <SortableContext items={tasksId}>
+          {group.tasks.map((item, index) => {
+            return <TaskItem task={item} key={item.id} />;
+          })}
+        </SortableContext>
       </div>
 
       <TaskAdd group={group} setGroupedTasks={setGroupedTasks} />
