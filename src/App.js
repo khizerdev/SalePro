@@ -63,52 +63,50 @@ const App = () => {
         }}
       />
 
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
-        <Routes>
-          <Route element={<GuestLayout />}>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
+      <Routes>
+        <Route element={<GuestLayout />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
 
-          <Route path="/dashboard" element={<AuthLayout />}>
-            <Route
-              path="users"
-              element={
-                <Suspense fallback={null}>
-                  <Users />
-                </Suspense>
-              }
-            />
-            <Route path="projects">
-              <Route path=":id" element={<ProjectDetail />}></Route>
-              <Route
-                index
-                element={
-                  <Suspense fallback={null}>
-                    <Projects />
-                  </Suspense>
-                }
-              />
-            </Route>
-            <Route
-              path="tasks"
-              element={
-                <Suspense fallback={null}>
-                  <Tasks />
-                </Suspense>
-              }
-            />
+        <Route path="/dashboard" element={<AuthLayout />}>
+          <Route
+            path="users"
+            element={
+              <Suspense fallback={null}>
+                <Users />
+              </Suspense>
+            }
+          />
+          <Route path="projects">
+            <Route path=":id" element={<ProjectDetail />}></Route>
             <Route
               index
               element={
                 <Suspense fallback={null}>
-                  <Dashboard />
+                  <Projects />
                 </Suspense>
               }
             />
           </Route>
-        </Routes>
-      </ErrorBoundary>
+          <Route
+            path="tasks"
+            element={
+              <Suspense fallback={null}>
+                <Tasks />
+              </Suspense>
+            }
+          />
+          <Route
+            index
+            element={
+              <Suspense fallback={null}>
+                <Dashboard />
+              </Suspense>
+            }
+          />
+        </Route>
+      </Routes>
     </>
   );
 };

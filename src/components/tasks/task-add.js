@@ -28,7 +28,6 @@ const TaskAdd = ({ group, setGroupedTasks }) => {
     setGroupedTasks((prevTasks) => {
       const updatedTasks = [...prevTasks];
       const groupIndex = updatedTasks.findIndex((item) => item.id === group.id);
-      console.log(groupIndex);
       updatedTasks[groupIndex].tasks.push(newTask);
       return updatedTasks;
     });
