@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import uuid from "react-uuid";
+import dataTasks from "data/dataTasks";
 
 const TaskAdd = ({ group, setGroupedTasks }) => {
   const projects = useSelector((state) => state.projects.projects);
@@ -23,6 +24,7 @@ const TaskAdd = ({ group, setGroupedTasks }) => {
       description: "",
       projectName,
       status: group.title,
+      boardId: group.id,
     };
 
     setGroupedTasks((prevTasks) => {
