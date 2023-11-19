@@ -1,45 +1,22 @@
-import dayjs from "dayjs";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import uuid from "react-uuid";
-import dataTasks from "data/dataTasks";
 
-const TaskAdd = ({ group, setGroupedTasks }) => {
-  const projects = useSelector((state) => state.projects.projects);
+const TaskAdd = ({ onAddItem, id }) => {
   const [addMode, setAddMode] = useState(false);
   const [taskInput, setTaskInput] = useState("");
 
-  const params = useParams();
-  const { name: projectName } = projects.find((item) => item.id === params.id);
-
   const addTask = () => {
     const newTask = {
-      id: uuid(),
+      id: `task-${uuid()}`,
       title: taskInput,
-      projectId: params.id,
-      user: "peirce morgen",
-      start_date: dayjs().format("YYYY-MM-DD"), // current date
-      end_date: dayjs().add(7, "day").format("YYYY-MM-DD"), // next 7th day date
-      description: "",
-      projectName,
-      status: group.title,
-      boardId: group.id,
     };
-
-    setGroupedTasks((prevTasks) => {
-      const updatedTasks = [...prevTasks];
-      const groupIndex = updatedTasks.findIndex((item) => item.id === group.id);
-      updatedTasks[groupIndex].tasks.push(newTask);
-      return updatedTasks;
-    });
-
+    onAddItem(newTask, id);
     setAddMode(false);
     setTaskInput("");
   };
 
   return (
-    <div className="px-2">
+    <>
       {!addMode ? (
         <div
           className="group mb-1.5 flex cursor-pointer items-center rounded px-2 py-2 hover:bg-gray-300"
@@ -66,7 +43,7 @@ const TaskAdd = ({ group, setGroupedTasks }) => {
         <div className="mb-2">
           <input
             type="text"
-            className="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+            className="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             placeholder="Enter a task"
             value={taskInput}
             onChange={(e) => setTaskInput(e.target.value)}
@@ -88,7 +65,7 @@ const TaskAdd = ({ group, setGroupedTasks }) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,43 +1,57 @@
 const dataTasks = [
   {
-    id: "container-74c67061-b960-4818-a7cc-c036463079d4",
-    title: "test",
-    items: [
+    id: "column-1",
+    title: "Todo",
+    tasks: [
       {
-        id: "item-0bfc2d18-6e8e-4d7f-8dc5-4616d6250672",
-        title: "user",
+        id: "task-d9348240-b393-f4f1-8fdc-cc8a9226a7a9",
+        title: "Design Plugin",
       },
       {
-        id: "item-5f3256e3-49cf-46e6-a829-f80aeb6f46ab",
-        title: "asdasd",
-      },
-    ],
-  },
-  {
-    id: "container-c5e956bf-bb3e-485a-82cc-9583406665a6",
-    title: "test1",
-    items: [
-      {
-        id: "item-ff0ffa2e-4a92-44cd-a0dc-1c2563ec4258",
-        title: "qweqwe",
-      },
-      {
-        id: "item-6749dc55-01b0-4bad-812f-0373406740fd",
-        title: "qeqwe",
+        id: "task-90b12965-bf81-a422-7b7b-9424d7041716",
+        title: "Create prototype",
       },
     ],
   },
   {
-    id: "container-c523423956bf-bb3e-485a-82cc-9583406665a6",
-    title: "test3",
-    items: [
+    id: "column-2",
+    title: "In Development",
+    tasks: [
       {
-        id: "item-f234fa2e-4a92-44cd-a0dc-1c2563ec4258",
-        title: "qweqwe",
+        id: "task-d6874a30-5116-3cff-6205-a16a8e22ba2e",
+        title: "Fix mimetype on android",
       },
       {
-        id: "item-6742342355-01b0-4bad-812f-0373406740fd",
-        title: "qeqwe",
+        id: "task-d6874a30-3cff-5116-6205-a16a8e22ba2e",
+        title: "Add dropdown to usermenu",
+      },
+    ],
+  },
+  {
+    id: "column-3",
+    title: "In QA",
+    tasks: [
+      {
+        id: "task-698f4c5-4bd0-8a0a-bc60-0bd12cacb8ac",
+        title: "Add Filter",
+      },
+      {
+        id: "task-e4341d62-fe52-1a74-014e09c34af1-53f5",
+        title: "Add Mockup",
+      },
+    ],
+  },
+  {
+    id: "column-4",
+    title: "Completed",
+    tasks: [
+      {
+        id: "task-698f4c5-4bd0-0bd12cacb8ac--8a0a-bc60",
+        title: "Create Dashboard Page",
+      },
+      {
+        id: "task-fe52-e4341d62-1a74-014e09c34af1-53f5",
+        title: "Add Mockup",
       },
     ],
   },
