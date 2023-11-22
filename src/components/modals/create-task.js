@@ -46,22 +46,44 @@ const CreateTask = () => {
 
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(() => resolve(true), 1500));
+
     const project = projects.find((item) => item.id === data.projectId);
-    const newTaskData = {
-      id: uuid(),
+    const projectIndex = projects.findIndex(
+      (item) => item.id === data.projectId,
+    );
+
+    const hasTodoColumn = project.board?.findIndex(
+      (item) => item.title === "Todo",
+    );
+
+    const newTask = {
+      id: `task-${uuid()}`,
       ...data,
-      projectName: project.name,
-      status: "In Pending",
     };
-    const updatedTasks = [...tasks, newTaskData];
-    actions.SET_TASKS(updatedTasks);
+
+    const newTodoColumn = {
+      id: `column-${uuid()}`,
+      title: "Todo",
+      lists: [{ ...newTask }],
+    };
+
+    if (hasTodoColumn !== -1) {
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].board[hasTodoColumn].lists.push(newTask);
+      actions.SET_PROJECTS(updatedProjects);
+    } else {
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].board.push(newTodoColumn);
+      actions.SET_PROJECTS(updatedProjects);
+    }
+
     toast.success("Task Created");
     onClose();
   };
 
   const onClose = () => {
     actions.CLOSE_MODAL();
-    reset();
+    // reset();
   };
 
   return (
@@ -131,7 +153,7 @@ const CreateTask = () => {
                         {projects.map((project, index) => {
                           return (
                             <option value={project.id} key={index}>
-                              {project.name}
+                              {project.title}
                             </option>
                           );
                         })}

@@ -51,8 +51,19 @@ const CreateProject = () => {
 
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(() => resolve(true), 1500));
-    const newProjectData = { id: uuid(), ...data, tasks: [] };
-    const updatedProjects = [...projects, newProjectData];
+
+    const updatedProjects = [
+      ...projects,
+      {
+        id: `${uuid()}`,
+        title: data.name,
+        category: data.category,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        description: data.description,
+        board: [],
+      },
+    ];
     actions.SET_PROJECTS(updatedProjects);
     toast.success("Project Created");
     onClose();
