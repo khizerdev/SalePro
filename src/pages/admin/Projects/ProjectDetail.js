@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import {
   DndContext,
@@ -10,47 +10,64 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
+import uuid from "react-uuid";
+import { useParams } from "react-router-dom";
+import { actionCreators } from "store";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import Section from "components/section/section";
 import Column from "components/tasks/column";
-import uuid from "react-uuid";
 import Task from "components/tasks/task";
 
-import dataTasks from "data/dataTasks";
-
 const ProjectDetail = () => {
-  const [columns, setColumns] = useState(dataTasks);
   const [activeId, setActiveId] = useState(null);
+
+  const { id } = useParams();
+
+  const { projects } = useSelector((state) => state.projects);
+
+  const dispatch = useDispatch();
+  const actions = bindActionCreators(actionCreators, dispatch);
+
+  const projectIndex = projects.findIndex((item) => item.id === id);
+  const project = projects.find((item) => item.id === id);
+  const [columns, setColumns] = useState([]);
+
+  useEffect(() => {
+    setColumns(project.board);
+  }, [project.board]);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
   const addColumn = () => {
     const id = `column-${uuid()}`;
-    setColumns([
-      ...columns,
-      {
-        id,
-        title: "New Column",
-        tasks: [],
-      },
-    ]);
+    const updatedProjects = [...projects];
+    updatedProjects[projectIndex].board.push({
+      id,
+      title: "New Column",
+      lists: [],
+    });
+    actions.SET_PROJECTS(updatedProjects);
   };
 
   const onAddTask = (task, id) => {
-    const column = columns.find((item) => item.id === id);
-    if (!column) return;
-    column.tasks.push(task);
-    setColumns([...columns]);
+    const columnIndex = columns.findIndex((item) => item.id === id);
+    if (columnIndex == -1) return;
+    const updatedProjects = [...projects];
+    updatedProjects[projectIndex].board[columnIndex].lists.push(task);
+    actions.SET_PROJECTS(updatedProjects);
   };
 
   function findTask(id) {
     // Use find to get the column with the task
     const columnWithTask = columns.find((column) =>
-      column.tasks.some((item) => item.id === id),
+      column.lists.some((item) => item.id === id),
     );
 
     // If a column with the task is found, use find to get the task
     const task = columnWithTask
-      ? columnWithTask.tasks.find((item) => item.id === id)
+      ? columnWithTask.lists.find((item) => item.id === id)
       : null;
 
     return task;
@@ -63,7 +80,7 @@ const ProjectDetail = () => {
     }
     if (type === "task") {
       return columns.find((column) =>
-        column.tasks.find((item) => item.id == id),
+        column.lists.find((item) => item.id == id),
       );
     }
   }
@@ -71,7 +88,7 @@ const ProjectDetail = () => {
   const findTaskTitle = (id) => {
     const column = findValueOfItems(id, "task");
     if (!column) return "";
-    const task = column.tasks.find((item) => item.id === id);
+    const task = column.lists.find((item) => item.id === id);
     if (!task) return "";
     return task.title;
   };
@@ -85,7 +102,7 @@ const ProjectDetail = () => {
   const findColumnTasks = (id) => {
     const column = findValueOfItems(id, "column");
     if (!column) return [];
-    return column.tasks;
+    return column.lists;
   };
 
   function handleDragStart(event) {
@@ -121,32 +138,39 @@ const ProjectDetail = () => {
       );
 
       // Find the index of the active and over item
-      const activeTaskIndex = activeColumn.tasks.findIndex(
+      const activeTaskIndex = activeColumn.lists.findIndex(
         (item) => item.id === active.id,
       );
-      const overTaskIndex = overColumn.tasks.findIndex(
+      const overTaskIndex = overColumn.lists.findIndex(
         (item) => item.id === over.id,
       );
 
       // In the same Column
       if (activeColumnIndex === overColumnIndex) {
         let newColumns = [...columns];
-        newColumns[activeColumnIndex].tasks = arrayMove(
-          newColumns[activeColumnIndex].tasks,
+        newColumns[activeColumnIndex].lists = arrayMove(
+          newColumns[activeColumnIndex].lists,
           activeTaskIndex,
           overTaskIndex,
         );
 
-        setColumns(newColumns);
+        const updatedProjects = [...projects];
+        updatedProjects[projectIndex].board = newColumns;
+        actions.SET_PROJECTS(updatedProjects);
+
+        // setColumns(newColumns);
       } else {
         // In different columns
         let newColumns = [...columns];
-        const [removeditem] = newColumns[activeColumnIndex].tasks.splice(
+        const [removeditem] = newColumns[activeColumnIndex].lists.splice(
           activeTaskIndex,
           1,
         );
-        newColumns[overColumnIndex].tasks.splice(overTaskIndex, 0, removeditem);
-        setColumns(newColumns);
+        newColumns[overColumnIndex].lists.splice(overTaskIndex, 0, removeditem);
+        const updatedProjects = [...projects];
+        updatedProjects[projectIndex].board = newColumns;
+        actions.SET_PROJECTS(updatedProjects);
+        // setColumns(newColumns);
       }
     }
 
@@ -174,18 +198,20 @@ const ProjectDetail = () => {
       );
 
       // Find the index of the active and over item
-      const activeTaskIndex = activeColumn.tasks.findIndex(
+      const activeTaskIndex = activeColumn.lists.findIndex(
         (item) => item.id === active.id,
       );
 
       // Remove the active item from the active column and add it to the over Column
       let newColumns = [...columns];
-      const [removeditem] = newColumns[activeColumnIndex].tasks.splice(
+      const [removeditem] = newColumns[activeColumnIndex].lists.splice(
         activeTaskIndex,
         1,
       );
-      newColumns[overColumnIndex].tasks.push(removeditem);
-      setColumns(newColumns);
+      newColumns[overColumnIndex].lists.push(removeditem);
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].board = newColumns;
+      actions.SET_PROJECTS(updatedProjects);
     }
   };
 
@@ -211,6 +237,9 @@ const ProjectDetail = () => {
       // Swap the active and over column
       let newColumns = [...columns];
       newColumns = arrayMove(newColumns, activeColumnIndex, overColumnIndex);
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].board = newColumns;
+      actions.SET_PROJECTS(updatedProjects);
       setColumns(newColumns);
     }
 
@@ -230,36 +259,40 @@ const ProjectDetail = () => {
       if (!activeColumn || !overColumn) return;
       // Find the index of the active and over column
       const activeColumnIndex = columns.findIndex(
-        (Column) => Column.id === activeColumn.id,
+        (column) => column.id === activeColumn.id,
       );
       const overColumnIndex = columns.findIndex(
-        (Column) => Column.id === overColumn.id,
+        (column) => column.id === overColumn.id,
       );
       // Find the index of the active and over item
-      const activeTaskIndex = activeColumn.tasks.findIndex(
+      const activeTaskIndex = activeColumn.lists.findIndex(
         (item) => item.id === active.id,
       );
-      const overTaskIndex = overColumn.tasks.findIndex(
+      const overTaskIndex = overColumn.lists.findIndex(
         (item) => item.id === over.id,
       );
       // In the same column
       if (activeColumnIndex === overColumnIndex) {
         let newColumns = [...columns];
-        newColumns[activeColumnIndex].tasks = arrayMove(
-          newColumns[activeColumnIndex].tasks,
+        newColumns[activeColumnIndex].lists = arrayMove(
+          newColumns[activeColumnIndex].lists,
           activeTaskIndex,
           overTaskIndex,
         );
-        setColumns(newColumns);
+        const updatedProjects = [...projects];
+        updatedProjects[projectIndex].board = newColumns;
+        actions.SET_PROJECTS(updatedProjects);
       } else {
         // In different columns
         let newColumns = [...columns];
-        const [removeditem] = newColumns[activeColumnIndex].tasks.splice(
+        const [removeditem] = newColumns[activeColumnIndex].lists.splice(
           activeTaskIndex,
           1,
         );
-        newColumns[overColumnIndex].tasks.splice(overTaskIndex, 0, removeditem);
-        setColumns(newColumns);
+        newColumns[overColumnIndex].lists.splice(overTaskIndex, 0, removeditem);
+        const updatedProjects = [...projects];
+        updatedProjects[projectIndex].board = newColumns;
+        actions.SET_PROJECTS(updatedProjects);
       }
     }
     // Handling item dropping into column
@@ -284,27 +317,27 @@ const ProjectDetail = () => {
         (column) => column.id === overColumn.id,
       );
       // Find the index of the active and over item
-      const activeTaskIndex = activeColumn.tasks.findIndex(
+      const activeTaskIndex = activeColumn.lists.findIndex(
         (item) => item.id === active.id,
       );
 
       let newItems = [...columns];
-      const [removeditem] = newItems[activeColumnIndex].items.splice(
+      const [removeditem] = newItems[activeColumnIndex].lists.splice(
         activeTaskIndex,
         1,
       );
-      newItems[overColumnIndex].items.push(removeditem);
-      setColumns(newItems);
+      newItems[overColumnIndex].lists.push(removeditem);
+      const updatedProjects = [...projects];
+      updatedProjects[projectIndex].board = newItems;
+      actions.SET_PROJECTS(updatedProjects);
     }
     setActiveId(null);
   }
 
-  function updateColumn(id, title) {
-    const newColumns = columns.map((item) => {
-      if (item.id !== id) return item;
-      return { ...item, title };
-    });
-    setColumns(newColumns);
+  function updateColumn(index, title) {
+    const updatedProjects = [...projects];
+    updatedProjects[projectIndex].board[index].title = title;
+    actions.SET_PROJECTS(updatedProjects);
   }
 
   return (
@@ -318,17 +351,18 @@ const ProjectDetail = () => {
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={columns.map((i) => i.id)}>
-            {columns.map((column) => (
+            {columns.map((column, index) => (
               <Column
                 id={column.id}
                 title={column.title}
                 key={column.id}
+                index={index}
                 onAddItem={onAddTask}
                 updateColumn={updateColumn}
               >
-                <SortableContext items={column.tasks.map((i) => i.id)}>
+                <SortableContext items={column.lists.map((i) => i.id)}>
                   <div className="flex flex-grow flex-col overflow-y-auto overflow-x-hidden">
-                    {column.tasks.map((i) => (
+                    {column.lists.map((i) => (
                       <Task task={i} id={i.id} key={i.id} />
                     ))}
                   </div>

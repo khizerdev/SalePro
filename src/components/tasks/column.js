@@ -5,7 +5,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import TaskAdd from "./task-add";
 
-const Column = ({ id, children, title, onAddItem, updateColumn }) => {
+const Column = ({ id, children, title, index, onAddItem, updateColumn }) => {
   const {
     attributes,
     setNodeRef,
@@ -29,7 +29,7 @@ const Column = ({ id, children, title, onAddItem, updateColumn }) => {
         transition,
         transform: CSS.Translate.toString(transform),
       }}
-      className={`box-border flex h-[400px] max-h-[400px] w-[16rem] !min-w-[16rem] flex-1 flex-col rounded bg-gray-200 px-2 py-2.5 ${
+      className={`box-border flex h-[400px] max-h-[400px] w-[16rem] !min-w-[16rem] !max-w-[16rem] flex-1 flex-col rounded bg-gray-200 px-2 py-2.5 ${
         isDragging ? "opacity-50" : ""
       }`}
     >
@@ -44,7 +44,7 @@ const Column = ({ id, children, title, onAddItem, updateColumn }) => {
             <input
               className="block h-[30px] w-full border-gray-300 pl-2 text-sm shadow-sm focus:border-blue-600 focus:ring-blue-600"
               value={title}
-              onChange={(e) => updateColumn(id, e.target.value)}
+              onChange={(e) => updateColumn(index, e.target.value)}
               autoFocus
               onBlur={() => {
                 setEditMode(false);
