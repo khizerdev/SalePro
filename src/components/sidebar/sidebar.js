@@ -13,33 +13,36 @@ import { actionCreators } from "store";
 
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { useTranslation, initReactI18next } from "react-i18next";
 
 const Sidebar = () => {
   const sidebarOpen = useSelector((state) => state.setting.sidebarOpen);
   const dispatch = useDispatch();
   const actions = bindActionCreators(actionCreators, dispatch);
 
+  const { t } = useTranslation();
+
   const menus = [
     {
-      title: "Dashboard",
+      title: t("Sidebar.Dashboard"),
       src: <Gauge size={25} />,
       link: "/dashboard",
       name: "dashboard",
     },
     {
-      title: "Users",
+      title: t("Sidebar.Users"),
       src: <Users2 size={25} />,
       link: "/dashboard/users",
       name: "dashboard/users",
     },
     {
-      title: "Tasks",
+      title: t("Sidebar.Tasks"),
       src: <FileCheck size={25} />,
       link: "/dashboard/tasks",
       name: "dashboard/tasks",
     },
     {
-      title: "Projects",
+      title: t("Sidebar.Projects"),
       src: <GanttChartSquare size={25} />,
       link: "/dashboard/projects",
       name: "dashboard/projects",
