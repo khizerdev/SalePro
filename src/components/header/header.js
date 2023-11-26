@@ -1,5 +1,6 @@
 import React from "react";
 import UserMenu from "components/header/user-menu";
+import LanguageSwitcher from "./language-switcher";
 
 const Header = () => {
   return (
@@ -15,7 +16,10 @@ const Header = () => {
               placeholder="Search"
             />
           </div>
-          <UserMenu />
+          <div className="flex gap-4">
+            <LanguageSwitcher />
+            <UserMenu />
+          </div>
         </div>
       </nav>
     </header>

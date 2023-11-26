@@ -1,6 +1,9 @@
 import Section from "components/section/section";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Section>
@@ -8,7 +11,7 @@ const Dashboard = () => {
           <div className="bg-card text-card-foreground rounded-xl border shadow">
             <div className="flex flex-row items-center justify-between space-y-0 p-6 pb-2">
               <h3 className="text-sm font-medium tracking-tight">
-                Total Revenue
+                {t("Total Revenue")}
               </h3>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

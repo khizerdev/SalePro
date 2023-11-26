@@ -1,5 +1,6 @@
 const initialState = {
   sidebarOpen: true,
+  language: "en",
 };
 
 const reducer = (state = initialState, action) => {
@@ -8,6 +9,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         sidebarOpen: !state.sidebarOpen,
+      };
+    case "CHANGE_LANGUAGE":
+      return {
+        ...state,
+        language: action.payload,
       };
     default:
       return state;
